@@ -1,0 +1,135 @@
+{
+  "baseline": {
+    "current_time": "14:27:55",
+    "timezone": "America/Los_Angeles",
+    "alarm_count": 0,
+    "theoretical_ops_per_sec": 1,
+    "theoretical_ops_per_min": 60,
+    "estimated_memory_mb": 0.0,
+    "performance_tier": "Excellent",
+    "recommendation": "No changes needed",
+    "scalability_limits": {
+      "recommended_max_alarms": 1000000,
+      "absolute_max_alarms": 10000000,
+      "memory_limit_mb": 1000
+    },
+    "scheduler_stats": {
+      "total_alarms": 0,
+      "hours_with_alarms": 1,
+      "total_time_slots": 604,
+      "alarms_per_hour": {
+        "14": 0
+      }
+    }
+  },
+  "small_scale": {
+    "success_count": 100,
+    "time": 1.0050058364868164,
+    "performance": {
+      "current_time": "14:27:56",
+      "timezone": "America/Los_Angeles",
+      "alarm_count": 100,
+      "theoretical_ops_per_sec": 1,
+      "theoretical_ops_per_min": 60,
+      "estimated_memory_mb": 0.02,
+      "performance_tier": "Excellent",
+      "recommendation": "No changes needed",
+      "scalability_limits": {
+        "recommended_max_alarms": 1000000,
+        "absolute_max_alarms": 10000000,
+        "memory_limit_mb": 1000
+      },
+      "scheduler_stats": {
+        "total_alarms": 100,
+        "hours_with_alarms": 1,
+        "total_time_slots": 609,
+        "alarms_per_hour": {
+          "14": 100
+        }
+      }
+    }
+  },
+  "medium_scale": {
+    "success_count": 500,
+    "time": 4.532823324203491,
+    "performance": {
+      "current_time": "14:28:00",
+      "timezone": "America/Los_Angeles",
+      "alarm_count": 600,
+      "theoretical_ops_per_sec": 1,
+      "theoretical_ops_per_min": 60,
+      "estimated_memory_mb": 0.11,
+      "performance_tier": "Excellent",
+      "recommendation": "No changes needed",
+      "scalability_limits": {
+        "recommended_max_alarms": 1000000,
+        "absolute_max_alarms": 10000000,
+        "memory_limit_mb": 1000
+      },
+      "scheduler_stats": {
+        "total_alarms": 600,
+        "hours_with_alarms": 1,
+        "total_time_slots": 617,
+        "alarms_per_hour": {
+          "14": 600
+        }
+      }
+    }
+  },
+  "concurrent": {
+    "total": 100,
+    "success": 100,
+    "total_time": 0.47911882400512695,
+    "avg_response_time": 0.04323724985122681,
+    "requests_per_second": 208.7164915877526
+  },
+  "memory_scaling": [
+    {
+      "alarm_count": 800,
+      "memory_mb": 0.15,
+      "add_time": 0.8901715278625488,
+      "add_rate": 112.33789991027547
+    },
+    {
+      "alarm_count": 1300,
+      "memory_mb": 0.25,
+      "add_time": 4.725364923477173,
+      "add_rate": 105.81193370184701
+    },
+    {
+      "alarm_count": 2300,
+      "memory_mb": 0.44,
+      "add_time": 8.260612964630127,
+      "add_rate": 121.0563918539398
+    },
+    {
+      "alarm_count": 4300,
+      "memory_mb": 0.82,
+      "add_time": 17.099138736724854,
+      "add_rate": 116.96495541640815
+    }
+  ],
+  "trigger_test": {
+    "current_time": "14:29:07",
+    "timezone": "America/Los_Angeles",
+    "alarm_count": 4288,
+    "theoretical_ops_per_sec": 1,
+    "theoretical_ops_per_min": 60,
+    "estimated_memory_mb": 0.82,
+    "performance_tier": "Excellent",
+    "recommendation": "No changes needed",
+    "scalability_limits": {
+      "recommended_max_alarms": 1000000,
+      "absolute_max_alarms": 10000000,
+      "memory_limit_mb": 1000
+    },
+    "scheduler_stats": {
+      "total_alarms": 4288,
+      "hours_with_alarms": 1,
+      "total_time_slots": 689,
+      "alarms_per_hour": {
+        "14": 4288
+      }
+    }
+  }
+}

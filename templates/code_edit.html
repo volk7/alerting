@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Code Description</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h1 class="text-center">✏️ Edit Code Description</h1>
+
+    <div class="mb-3">
+        <a href="{{ url_for('code_index') }}" class="btn btn-secondary">← Back to Code Descriptions</a>
+    </div>
+
+    <form action="{{ url_for('update_code', code_id=code['code_id']) }}" method="post">
+        <div class="mb-3">
+            <label for="code_id" class="form-label">Code ID</label>
+            <input type="text" class="form-control" name="code_id" value="{{ code['code_id'] }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description" value="{{ code['description'] }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+        <a href="{{ url_for('code_index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</body>
+</html>

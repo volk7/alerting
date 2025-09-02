@@ -1,0 +1,104 @@
+{
+  "creation_stress": {
+    "total_alarms": 10000,
+    "success_count": 10000,
+    "error_count": 0,
+    "total_time": 85.77281475067139,
+    "avg_rate": 116.58705650582284,
+    "avg_response_time": 0.008526614999771118,
+    "max_response_time": 0.1625382900238037
+  },
+  "concurrency_stress": {
+    "total_requests": 500,
+    "success_count": 500,
+    "error_count": 0,
+    "total_time": 1.8745577335357666,
+    "requests_per_second": 266.72958162611855,
+    "avg_response_time": 0.15404098653793336,
+    "max_response_time": 0.27147459983825684
+  },
+  "memory_stress": [
+    {
+      "batch_size": 1000,
+      "success_count": 1000,
+      "add_time": 9.078626155853271,
+      "add_rate": 110.14882459448658,
+      "memory_increase": 0.18999999999999995,
+      "total_memory": 2.19,
+      "total_alarms": 11500
+    },
+    {
+      "batch_size": 2000,
+      "success_count": 2000,
+      "add_time": 19.15567421913147,
+      "add_rate": 104.4077058902227,
+      "memory_increase": 0.3799999999999999,
+      "total_memory": 2.57,
+      "total_alarms": 13499
+    },
+    {
+      "batch_size": 5000,
+      "success_count": 5000,
+      "add_time": 46.520227909088135,
+      "add_rate": 107.4801269196535,
+      "memory_increase": 0.10000000000000009,
+      "total_memory": 2.67,
+      "total_alarms": 14019
+    },
+    {
+      "batch_size": 10000,
+      "success_count": 10000,
+      "add_time": 100.43680095672607,
+      "add_rate": 99.56509869632917,
+      "memory_increase": 1.9100000000000001,
+      "total_memory": 4.58,
+      "total_alarms": 24002
+    }
+  ],
+  "triggering_stress": {
+    "current_time": "14:41:18",
+    "timezone": "America/Los_Angeles",
+    "alarm_count": 28887,
+    "theoretical_ops_per_sec": 1,
+    "theoretical_ops_per_min": 60,
+    "estimated_memory_mb": 5.51,
+    "performance_tier": "Good",
+    "recommendation": "Monitor performance",
+    "scalability_limits": {
+      "recommended_max_alarms": 1000000,
+      "absolute_max_alarms": 10000000,
+      "memory_limit_mb": 1000
+    },
+    "scheduler_stats": {
+      "total_alarms": 28887,
+      "hours_with_alarms": 24,
+      "total_time_slots": 24404,
+      "alarms_per_hour": {
+        "14": 1618,
+        "9": 983,
+        "0": 987,
+        "8": 1041,
+        "13": 1166,
+        "3": 1054,
+        "19": 1363,
+        "2": 1103,
+        "16": 1459,
+        "23": 1399,
+        "6": 1141,
+        "11": 1074,
+        "17": 1416,
+        "22": 1430,
+        "18": 1438,
+        "5": 1038,
+        "10": 971,
+        "1": 1074,
+        "7": 1088,
+        "20": 1392,
+        "21": 1377,
+        "15": 1234,
+        "4": 1062,
+        "12": 979
+      }
+    }
+  }
+}

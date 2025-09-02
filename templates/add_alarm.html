@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Custom Alarm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 700px;
+            margin: 50px auto;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 10px 25px;
+            margin: 5px;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .unique-id-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .time-picker {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .time-picker input {
+            text-align: center;
+            font-weight: bold;
+        }
+        .form-floating {
+            margin-bottom: 20px;
+        }
+        .preview-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 5px;
+        }
+        .success-message {
+            color: #28a745;
+            font-size: 0.875rem;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="form-container">
+            <div class="text-center mb-4">
+                <h2><i class="fas fa-clock"></i> Add Custom Alarm</h2>
+                <p class="text-muted">Create a new alarm with unique identifier for performance testing</p>
+            </div>
+            
+            <!-- Unique ID Display -->
+            <div class="unique-id-display">
+                <h5><i class="fas fa-fingerprint"></i> Unique Alarm ID</h5>
+                <div class="h4 mb-0" id="uniqueId">Loading...</div>
+                <small>This ID will be automatically generated</small>
+            </div>
+            
+            <form id="alarmForm" method="POST" novalidate>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="code_id" name="code_id" 
+                                   placeholder="Enter custom code ID (optional)" maxlength="50">
+                            <label for="code_id">
+                                <i class="fas fa-tag"></i> Custom Code ID (Optional)
+                            </label>
+                            <div class="form-text">Leave empty to use auto-generated ID</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   placeholder="Enter email address" required>
+                            <label for="email">
+                                <i class="fas fa-envelope"></i> Email Address
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                        <label class="form-label">
+                            <i class="fas fa-clock"></i> Alarm Time
+                        </label>
+                        <div class="time-picker">
+                            <input type="number" class="form-control" id="hour" min="0" max="23" 
+                                   placeholder="HH" required>
+                            <span class="h4">:</span>
+                            <input type="number" class="form-control" id="minute" min="0" max="59" 
+                                   placeholder="MM" required>
+                            <span class="h4">:</span>
+                            <input type="number" class="form-control" id="second" min="0" max="59" 
+                                   placeholder="SS" required>
+                        </div>
+                        <input type="hidden" id="time" name="time">
+                        <div class="form-text">Set the time when the alarm should trigger</div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            <i class="fas fa-calendar"></i> Quick Time Options
+                        </label>
+                        <div class="d-grid gap-2">
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="setCurrentTime()">
+                                <i class="fas fa-clock"></i> Current Time
+                            </button>
+                            <button type="button" class="btn btn-outline-success btn-sm" onclick="setTimeInMinutes(1)">
+                                <i class="fas fa-plus"></i> +1 Minute
+                            </button>
+                            <button type="button" class="btn btn-outline-warning btn-sm" onclick="setTimeInMinutes(5)">
+                                <i class="fas fa-plus"></i> +5 Minutes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="is_recurring" name="is_recurring">
+                            <label class="form-check-label" for="is_recurring">
+                                <i class="fas fa-redo"></i> Recurring Alarm
+                            </label>
+                        </div>
+                        <div class="form-text">Check if this alarm should repeat daily</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="is_test_alarm" name="is_test_alarm">
+                            <label class="form-check-label" for="is_test_alarm">
+                                <i class="fas fa-flask"></i> Test Alarm
+                            </label>
+                        </div>
+                        <div class="form-text">Mark as test alarm for performance testing</div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-calendar-week"></i> Days of the Week</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="days_of_week" value="Mon" id="dowMon" checked>
+                                <label class="form-check-label" for="dowMon">Mon</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="days_of_week" value="Tue" id="dowTue" checked>
+                                <label class="form-check-label" for="dowTue">Tue</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="days_of_week" value="Wed" id="dowWed" checked>
+                                <label class="form-check-label" for="dowWed">Wed</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="days_of_week" value="Thu" id="dowThu" checked>
+                                <label class="form-check-label" for="dowThu">Thu</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="days_of_week" value="Fri" id="dowFri" checked>
+                                <label class="form-check-label" for="dowFri">Fri</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="days_of_week" value="Sat" id="dowSat" checked>
+                                <label class="form-check-label" for="dowSat">Sat</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="days_of_week" value="Sun" id="dowSun" checked>
+                                <label class="form-check-label" for="dowSun">Sun</label>
+                            </div>
+                        </div>
+                        <div class="form-text">Select the days this alarm should trigger</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label"><i class="fas fa-globe"></i> Timezone</label>
+                        <select class="form-select" id="timezone" name="timezone">
+                            <option value="America/Los_Angeles" selected>America/Los_Angeles</option>
+                            <option value="America/New_York">America/New_York</option>
+                            <option value="Europe/London">Europe/London</option>
+                            <option value="Europe/Paris">Europe/Paris</option>
+                            <option value="Asia/Tokyo">Asia/Tokyo</option>
+                            <option value="Asia/Kolkata">Asia/Kolkata</option>
+                            <option value="Australia/Sydney">Australia/Sydney</option>
+                            <option value="UTC">UTC</option>
+                        </select>
+                        <div class="form-text">Select the timezone for this alarm</div>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="preview-section" id="previewSection" style="display: none;">
+                    <h6><i class="fas fa-eye"></i> Alarm Preview</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>Code ID:</strong> <span id="previewCodeId"></span><br>
+                            <strong>Email:</strong> <span id="previewEmail"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>Time:</strong> <span id="previewTime"></span><br>
+                            <strong>Type:</strong> <span id="previewType"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary btn-custom">
+                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    </a>
+                    <div>
+                        <button type="button" class="btn btn-info btn-custom" onclick="previewAlarm()">
+                            <i class="fas fa-eye"></i> Preview
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-custom">
+                            <i class="fas fa-save"></i> Create Alarm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="fas fa-check-circle"></i> Alarm Created Successfully</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Your alarm has been created and scheduled successfully!</p>
+                    <div class="alert alert-info">
+                        <strong>Alarm Details:</strong><br>
+                        <span id="modalCodeId"></span><br>
+                        <span id="modalEmail"></span><br>
+                        <span id="modalTime"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary">Go to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let uniqueId = '';
+        
+        // Generate unique ID
+        function generateUniqueId() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 8);
+            uniqueId = `ALARM_${timestamp}_${random}`.toUpperCase();
+            document.getElementById('uniqueId').textContent = uniqueId;
+        }
+
+        // Set current time
+        function setCurrentTime() {
+            const now = new Date();
+            document.getElementById('hour').value = now.getHours();
+            document.getElementById('minute').value = now.getMinutes();
+            document.getElementById('second').value = now.getSeconds();
+            updateTimeField();
+        }
+
+        // Set time in minutes from now
+        function setTimeInMinutes(minutes) {
+            const now = new Date();
+            const future = new Date(now.getTime() + minutes * 60000);
+            document.getElementById('hour').value = future.getHours();
+            document.getElementById('minute').value = future.getMinutes();
+            document.getElementById('second').value = future.getSeconds();
+            updateTimeField();
+        }
+
+        // Update hidden time field
+        function updateTimeField() {
+            const hour = document.getElementById('hour').value.padStart(2, '0');
+            const minute = document.getElementById('minute').value.padStart(2, '0');
+            const second = document.getElementById('second').value.padStart(2, '0');
+            document.getElementById('time').value = `${hour}:${minute}:${second}`;
+        }
+
+        // Preview alarm
+        function previewAlarm() {
+            const codeId = document.getElementById('code_id').value || uniqueId;
+            const email = document.getElementById('email').value;
+            const isRecurring = document.getElementById('is_recurring').checked;
+            const isTest = document.getElementById('is_test_alarm').checked;
+            
+            updateTimeField();
+            const time = document.getElementById('time').value;
+            
+            if (!email || !time) {
+                alert('Please fill in all required fields first.');
+                return;
+            }
+            
+            document.getElementById('previewCodeId').textContent = codeId;
+            document.getElementById('previewEmail').textContent = email;
+            document.getElementById('previewTime').textContent = time;
+            document.getElementById('previewType').textContent = isRecurring ? 'Recurring' : 'One-time';
+            
+            document.getElementById('previewSection').style.display = 'block';
+        }
+
+        // Form validation
+        function validateForm() {
+            const email = document.getElementById('email').value;
+            const hour = document.getElementById('hour').value;
+            const minute = document.getElementById('minute').value;
+            const second = document.getElementById('second').value;
+            
+            let isValid = true;
+            
+            // Email validation
+            if (!email || !email.includes('@')) {
+                showError('email', 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                clearError('email');
+            }
+            
+            // Time validation
+            if (!hour || !minute || !second) {
+                showError('hour', 'Please set a valid time');
+                isValid = false;
+            } else if (hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) {
+                showError('hour', 'Please enter valid time values');
+                isValid = false;
+            } else {
+                clearError('hour');
+            }
+            
+            return isValid;
+        }
+
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.id = `${fieldId}_error`;
+            errorDiv.textContent = message;
+            
+            // Remove existing error
+            clearError(fieldId);
+            
+            // Add new error
+            field.parentNode.appendChild(errorDiv);
+            field.classList.add('is-invalid');
+        }
+
+        function clearError(fieldId) {
+            const existingError = document.getElementById(`${fieldId}_error`);
+            if (existingError) {
+                existingError.remove();
+            }
+            document.getElementById(fieldId).classList.remove('is-invalid');
+        }
+
+        // Form submission
+        document.getElementById('alarmForm').addEventListener('submit', function(e) {
+            if (!validateForm()) {
+                e.preventDefault();
+                return;
+            }
+            
+            updateTimeField();
+            
+            // Use custom code ID or generated unique ID
+            const codeId = document.getElementById('code_id').value || uniqueId;
+            document.getElementById('code_id').value = codeId;
+            
+            // Collect checked days
+            const daysChecked = Array.from(document.querySelectorAll('input[name="days_of_week"]:checked')).map(cb => cb.value);
+            let daysString = daysChecked.join(',');
+            
+            // Set or create hidden input for days_of_week
+            let daysInput = document.getElementById('days_of_week_hidden');
+            if (!daysInput) {
+                daysInput = document.createElement('input');
+                daysInput.type = 'hidden';
+                daysInput.id = 'days_of_week_hidden';
+                daysInput.name = 'days_of_week';
+                this.appendChild(daysInput);
+            }
+            daysInput.value = daysString;
+            
+            // Let the form submit normally for Flask flash messages
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            generateUniqueId();
+            setCurrentTime();
+            
+            // Add event listeners for time inputs
+            ['hour', 'minute', 'second'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updateTimeField);
+            });
+            
+            // Auto-generate new ID when custom ID is cleared
+            document.getElementById('code_id').addEventListener('input', function() {
+                if (!this.value) {
+                    generateUniqueId();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

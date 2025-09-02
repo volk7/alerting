@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Code Descriptions</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h1 class="text-center">📖 Manage Code Descriptions</h1>
+
+    <div class="mb-3">
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">← Back to Alarm Manager</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('add_code') }}" method="post" class="mt-3">
+        <div class="mb-3">
+            <label for="code_id" class="form-label">Code ID</label>
+            <input type="text" class="form-control" name="code_id" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="description" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">➕ Add Code</button>
+    </form>
+
+    <h3 class="mt-4">Existing Code Descriptions</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Code ID</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for code in codes %}
+            <tr>
+                <td>{{ code["code_id"] }}</td>
+                <td>{{ code["description"] }}</td>
+                <td>
+                    <a href="{{ url_for('edit_code', code_id=code['code_id']) }}" class="btn btn-warning">✏️ Edit</a>
+                    <a href="{{ url_for('delete_code', code_id=code['code_id']) }}" 
+                       class="btn btn-danger"
+                       onclick="return confirm('Are you sure you want to delete this code description?')">🗑️ Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        // Add confirmation for delete operations
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('a[href*="/delete/"]');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (!confirm('Are you sure you want to delete this code description?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
