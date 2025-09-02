@@ -38,7 +38,7 @@ From your local computer do the following
 
   docker ps
   
- * Start the react front end
+ * Start the flask front end
 
 ** from the root of the project.  Make sure you are in the python environment
   
