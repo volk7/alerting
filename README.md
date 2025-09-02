@@ -2,7 +2,7 @@ This is an alerting platform written in python.  To run the project do the follo
 
 Pre-requisites: docker, python 
 
-From your local copmputer do the following
+From your local computer do the following
 
 * Clone the project
 
